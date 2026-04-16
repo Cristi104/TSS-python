@@ -7,6 +7,12 @@ class Student:
         self.name = name
         self.grades = grades[:] if grades else []
 
+    def __str__(self):
+        return f"Student(id={self.id} name='{self.name}' grades={self.grades}"
+
+    def __repr__(self):
+        return f"Student({self.id!r}, {self.name!r}, {self.grades!r})"
+
     def add_grade(self, grade):
         if len(self.grades) >= 20:
             raise ValueError("Maximum number of grades reached")
@@ -17,7 +23,7 @@ class Student:
         if grade > 10:
             raise ValueError("Grade can't be greater than 10")
 
-        self.grades.append(grade)
+        self.grades.append(float(grade))
 
     def average(self):
         if not self.grades:
