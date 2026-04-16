@@ -1,5 +1,5 @@
 import db
 
-db = db.database()
+db = db.Database()
 students = db.populate_table()
 print(students)

@@ -1,7 +1,7 @@
 import sqlite3
-from student import student
+from student import Student
 
-class database:
+class Database:
     def __init__(self):
         self.conn = sqlite3.connect("students.db")
         self.cursor = self.conn.cursor()
@@ -40,7 +40,7 @@ class database:
         for grade in grades:
             self.cursor.execute("INSERT INTO grades (student_id, grade) VALUES (?, ?)", (row_id, grade))
         self.conn.commit()
-        return student(row_id, name, grades)
+        return Student(row_id, name, grades)
 
     def __del__(self):
         self.conn.close()
