@@ -1,0 +1,18 @@
+# virtual environment
+venv/
+
+# python cache
+__pycache__/
+*.pyc
+
+# pytest
+.pytest_cache/
+
+# playwright (cache/downloads)
+ms-playwright/
+
+# ide/editor
+.vscode/
+
+# system files
+.DS_Store
