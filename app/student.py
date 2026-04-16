@@ -8,11 +8,11 @@ class Student:
         self.grades = grades[:] if grades else []
 
     def add_grade(self, grade):
-        if len(self.grades) >= 20:
+        if len(self.grades) >= 7:
             raise ValueError("Maximum number of grades reached")
 
-        if grade < 0:
-            raise ValueError("Grade can't be negative")
+        if grade < 1:
+            raise ValueError("Grade can't be less than 1")
 
         if grade > 10:
             raise ValueError("Grade can't be greater than 10")
@@ -26,7 +26,6 @@ class Student:
 
     def is_passing(self):
         return self.average() >= 5
-
 
     def get_letter_grade(self):
         avg = self.average()
