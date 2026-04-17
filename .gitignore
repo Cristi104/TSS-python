@@ -16,3 +16,6 @@ ms-playwright/
 
 # system files
 .DS_Store
+
+# db
+students.db
