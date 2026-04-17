@@ -16,7 +16,7 @@ class ui:
     def menu(self):
         should_exit = False
         while not should_exit:
-            print("\n1 - show students\n2 - add student\n3 - remove student\n4 - add grade\n5 - generate report\n0 - exit\n")
+            print("\n1 - show students\n2 - add student\n3 - remove student\n4 - add grade\n5 - generate report\n6 - filter students by average\n0 - exit\n")
             in_string = input()
             opcode = int(in_string)
 
@@ -48,6 +48,23 @@ class ui:
                 report = self.generate_report()
                 print("\n=== REPORT ===")
                 print(report)
+
+            elif opcode == 6:
+                print("Format: <min_avg> <max_avg>")
+                in_string = input()
+                try:
+                    min_avg, max_avg = map(float, in_string.split())
+                    result = self.filter_students(min_avg, max_avg)
+
+                    print("\n=== FILTERED STUDENTS ===")
+                    if not result:
+                        print("No students found")
+                    else:
+                        for s in result:
+                            print(f"{s.name} (avg={s.average():.2f})")
+
+                except ValueError:
+                    print("Invalid input or range")
             
     def print_students(self):
         print("\n".join([i.__str__() for i in self.students]))
@@ -128,3 +145,15 @@ class ui:
             "performance": performance,
             "top": top_student.name
         }
+    
+    def filter_students(self, min_avg, max_avg):
+        if min_avg > max_avg:
+            raise ValueError("Invalid range")
+
+        result = []
+        for s in self.students:
+            avg = s.average()
+            if min_avg <= avg <= max_avg:
+                result.append(s)
+                
+        return result

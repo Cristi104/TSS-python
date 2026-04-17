@@ -18,6 +18,8 @@
 | Passing | P1 | avg ≥ 5 | True |
 | Passing | P2 | avg < 5 | False |
 
+---
+
 ### Equivalence Partitioning - Test Cases
 
 | Test ID | Input | Expected Output |
@@ -34,6 +36,8 @@
 | EP10 | [4,4,4] | F |
 | EP11 | avg ≥ 5 | is_passing = True |
 | EP12 | avg < 5 | is_passing = False |
+
+---
 
 ### Boundary Value Analysis - Student Module
 
@@ -53,6 +57,8 @@
 | Letter grade | F threshold | 4.99 | F |
 | Passing | boundary false | 4.99 | False |
 | Passing | boundary true | 5 | True |
+
+---
 
 ### Boundary Test Cases
 
@@ -74,6 +80,40 @@
 | BV14 | [9, 9, 9] | A |
 | BV15 | [4.97, 5, 5] | is_passing = False |
 | BV16 | [5, 5, 5] | is_passing = True |
+
+---
+
+### Category Partitioning - Filter Functionality
+
+| Category | Class | Description | Condition |
+|----------|------|-------------|----------|
+| Interval | I1 | valid interval | min ≤ max |
+| Interval | I2 | invalid interval | min > max |
+| Average Position | AP1 | below interval | avg < min |
+| Average Position | AP2 | inside interval | min ≤ avg ≤ max |
+| Average Position | AP3 | above interval | avg > max |
+| Boundary | B1 | avg = min | lower boundary |
+| Boundary | B2 | avg = max | upper boundary |
+| Students | S1 | empty list | no students |
+| Students | S2 | one student | single case |
+| Students | S3 | multiple students | mixed values |
+
+---
+
+### Category Partitioning - Test Cases
+
+| Test ID | Categories Covered | Input | Expected Output |
+|----------|------------------|------|----------------|
+| CP1 | I1 + AP2 + S2 | [6,6], range(5,7) | student included |
+| CP2 | I1 + AP1 + S2 | [4,4], range(5,7) | empty result |
+| CP3 | I1 + AP3 + S2 | [9,9], range(5,7) | empty result |
+| CP4 | I1 + B1 + S2 | [5,5], range(5,7) | included |
+| CP5 | I1 + B2 + S2 | [7,7], range(5,7) | included |
+| CP6 | I2 | range(7,5) | ValueError |
+| CP7 | I1 + S3 + AP1/AP2/AP3 | mixed students | only valid returned |
+| CP8 | I1 + S1 | empty list | empty result |
+
+---
 
 ### Independent Circuits Coverage - Student Report Module
 
@@ -155,18 +195,24 @@ V(G) = 16 − 14 + 2 = 4
 ui.menu statemnt graph
 ![graph](./docs/menu_graph.png)
 
-| Input | Expected | Statements |
-|-------|--------|------------|
-| "0\n"  | \<program exit> | 1...5,6,23 |
-| "1\n"  | \<student list> | 1...5,7,8,23 |
-| "2\n"  | "Format: \<name> [grade1 [grade2 [...]]]" | 1...5,7,9...12,23 |
-| "3\n"  | \<student list>, "Student id:" | 1...5,7,9,13...17,23 |
-| "4\n"  | "Format: \<id> \<grade>" | 1...5,7,9,13,18...23 |
+| Input | Expected Output | Statements Covered |
+|-------|----------------|--------------------|
+| "0\n" | program exit | 1...5,6,23 |
+| "1\n" | student list printed | 1...5,7,8,23 |
+| "2\n" | format message | 1...5,7,9...12,23 |
+| "3\n" | student list + prompt | 1...5,7,9,13...17,23 |
+| "4\n" | format message | 1...5,7,9,13,18...23 |
+| "5\n" | report generated | 1...5,7,9,13,19...22,23 |
+| "6 valid" | filtered students printed | 1...5,7,9,13,24...35 |
+| "6 empty result" | No students found | 1...5,7,9,13,24...35 |
+| "6 invalid input" | error message | 1...5,7,9,13,24...35 |
 
 
 ### Condition Coverage Tests
 
 ui.add_student
+![graph](./docs/student_graph.png)
+
 | Decisions | Conditions |
 |-----------|------------|
 | for i in range(len(in_string)): | i < len(in_string) |
@@ -179,4 +225,3 @@ ui.add_student
 | "1" | \<value error> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
 | "nume" | \<student created> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
 | "nume 1" | \<student created with grades> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
-

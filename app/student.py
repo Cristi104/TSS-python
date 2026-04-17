@@ -46,9 +46,3 @@ class Student:
             return "D"
         else:
             return "F"
-
-    def max_grade(self):
-        return max(self.grades) if self.grades else 0
-
-    def min_grade(self):
-        return min(self.grades) if self.grades else 0
