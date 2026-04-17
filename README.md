@@ -253,6 +253,18 @@ ui.generate_report
 | student with average 9 and student with average 8 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() False, global_avg >= 8 True |
 
 
+### Mutation Testing
+
+student.get_letter_grade
+
+| P | [9,9,9] | [8,8,8] | [7,7,7] | [5,5,5] | [4,4,4] | Distinct |
+|---|---------|---------|---------|---------|---------|----------|
+| P | A | B | C | D | F |  |
+| M1 | B | B | C | D | F | Y |
+| M2 | A | C | C | D | F | Y |
+| M3 | A | B | D | D | F | Y |
+| M4 | A | B | C | F | F | Y |
+
 
 
 
