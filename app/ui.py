@@ -1,5 +1,5 @@
-import db
-from student import Student
+from app import db
+from app.student import Student
 
 def is_number(s):
     try:
@@ -21,7 +21,6 @@ class ui:
             opcode = int(in_string)
             if opcode == 0:
                 should_exit = True
-                continue
             elif opcode == 1:
                 self.print_students()
             elif opcode == 2:
@@ -73,8 +72,8 @@ class ui:
         id = int(in_string[0])
         grade = float(in_string[1])
         student = self.find_student_by_id(id)
-        student.add_grade(grade)
         if student:
+            student.add_grade(grade)
             self.db.update_student(student)
 
     def remove_student(self, in_string):

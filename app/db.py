@@ -1,5 +1,5 @@
 import sqlite3
-from student import Student
+from app.student import Student
 
 class Database:
     def __init__(self):
