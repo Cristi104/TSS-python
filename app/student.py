@@ -5,7 +5,7 @@ class Student:
 
         self.id = student_id
         self.name = name
-        self.grades = grades[:] if grades else []
+        self.grades = [float(x) for x in grades] if grades else []
 
     def __str__(self):
         return f"Student(id={self.id} name='{self.name}' grades={self.grades}"
