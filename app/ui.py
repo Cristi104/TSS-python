@@ -1,6 +1,5 @@
 import db
 from student import Student
-import linecache
 
 def is_number(s):
     try:
@@ -12,33 +11,34 @@ def is_number(s):
 class ui:
     def __init__(self):
         self.db = db.Database()
-        self.students = self.db.load_students()
+        self.students = self.db.populate_table()
 
     def menu(self):
         should_exit = False
         while not should_exit:
-            print("1 - add student\n2 - remove student\n3 - add grade\n0 - exit\n")
+            print("\n1 - show students\n2 - add student\n3 - remove student\n4 - add grade\n0 - exit\n")
             in_string = input()
             opcode = int(in_string)
             if opcode == 0:
                 should_exit = True
                 continue
             elif opcode == 1:
+                self.print_students()
+            elif opcode == 2:
                 print("Format: <name> [grade1 [grade2 [...]]]")
                 in_string = input()
                 self.add_student(in_string)
-            elif opcode == 2:
+            elif opcode == 3:
                 self.print_students()
                 print("Student id:")
                 in_string = input()
                 self.remove_student(in_string)
-            elif opcode == 3:
+            elif opcode == 4:
                 self.print_students()
                 print("Format: <id> <grade>")
                 in_string = input()
                 self.add_grade(in_string)
             
-    
     def print_students(self):
         print("\n".join([i.__str__() for i in self.students]))
 
@@ -83,10 +83,3 @@ class ui:
         if student:
             self.db.delete_student(student)
             self.students.remove(student)
-
-
-u = ui()
-u.menu()
-
-
-

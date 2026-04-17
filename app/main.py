@@ -1,5 +1,8 @@
-import db
+from ui import ui
 
-db = db.Database()
-students = db.populate_table()
-print(students)
+def main():
+    app = ui()
+    app.menu()
+
+if __name__ == "__main__":
+    main()
