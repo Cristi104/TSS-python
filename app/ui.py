@@ -29,7 +29,7 @@ class ui:
 
             elif opcode == 2:
                 print("Format: <name> [grade1 [grade2 [...]]]")
-                in_string = input()
+                in_string =  input()
                 self.add_student(in_string)
 
             elif opcode == 3:
@@ -54,6 +54,10 @@ class ui:
                 in_string = input()
                 try:
                     min_avg, max_avg = map(float, in_string.split())
+                except ValueError:
+                    print("Invalid input ")
+                    continue
+                try:
                     result = self.filter_students(min_avg, max_avg)
 
                     print("\n=== FILTERED STUDENTS ===")
@@ -64,7 +68,7 @@ class ui:
                             print(f"{s.name} (avg={s.average():.2f})")
 
                 except ValueError:
-                    print("Invalid input or range")
+                    print("Invalid range")
             
     def print_students(self):
         print("\n".join([i.__str__() for i in self.students]))

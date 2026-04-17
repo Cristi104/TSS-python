@@ -74,4 +74,12 @@ def test_6_invalid_input(monkeypatch, capsys):
     monkeypatch.setattr("builtins.input", lambda *args: next(inputs))
     app.menu()
     captured = capsys.readouterr()
-    assert "Invalid input or range" in captured.out
+    assert "Invalid input" in captured.out
+
+def test_6_invalid_range(monkeypatch, capsys):
+    app = ui()
+    inputs = iter(["6", "6 5", "0"])
+    monkeypatch.setattr("builtins.input", lambda *args: next(inputs))
+    app.menu()
+    captured = capsys.readouterr()
+    assert "Invalid range" in captured.out

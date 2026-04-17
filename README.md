@@ -193,35 +193,79 @@ V(G) = 16 − 14 + 2 = 4
 ### Statement Coverage Tests
 
 ui.menu statemnt graph
+
+
 ![graph](./docs/menu_graph.png)
 
 | Input | Expected Output | Statements Covered |
 |-------|----------------|--------------------|
-| "0\n" | program exit | 1...5,6,23 |
-| "1\n" | student list printed | 1...5,7,8,23 |
-| "2\n" | format message | 1...5,7,9...12,23 |
-| "3\n" | student list + prompt | 1...5,7,9,13...17,23 |
-| "4\n" | format message | 1...5,7,9,13,18...23 |
-| "5\n" | report generated | 1...5,7,9,13,19...22,23 |
-| "6 valid" | filtered students printed | 1...5,7,9,13,24...35 |
-| "6 empty result" | No students found | 1...5,7,9,13,24...35 |
-| "6 invalid input" | error message | 1...5,7,9,13,24...35 |
+| "0" | program exit | 1...8,55 |
+| "1" | student list printed | 1...6,11,55 |
+| "2" | format message | 1...6,11,13,14...16,55 |
+| "3" | student list + prompt | 1...6,11,13,18,19...22,55 |
+| "4" | format message | 1...6,11,13,18,24,25...28,55 |
+| "5" | report generated | 1...6,11,13,18,24,30,31...3355 |
+| "6 invalid input" | error message | 1...6,11,13,18,24,30,35,36...38,39,40...42,55 |
+| "6 valid" | filtered students printed | 1...6,11,13,18,24,30,35,36...38,39,43,44,53...5455 |
+| "6 empty result" | No students found | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,48,55 |
+| "6 invalid range" | error message | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
 
 
-### Condition Coverage Tests
+### Decision Coverage Tests
 
 ui.add_student
 ![graph](./docs/student_graph.png)
 
-| Decisions | Conditions |
-|-----------|------------|
-| for i in range(len(in_string)): | i < len(in_string) |
-| if is_number(in_string[i]): | is_number(in_string[i])
-| if not is_number(in_string[i]): | not is_number(in_string[i]) |
+| Decisions |
+|-----------|
+| for i in range(len(in_string)): |
+| if is_number(in_string[i]): |
+| if not is_number(in_string[i]):
 
 | Input | Expected | Decisions |
 |-------|--------|------------|
-| "" | \<value error>  | i < len(in_string) False |
-| "1" | \<value error> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
-| "nume" | \<student created> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
-| "nume 1" | \<student created with grades> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
+| "" | value error  | i < len(in_string) False |
+| "1" | value error | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
+| "nume" | student created | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
+| "nume 1" | student created with grades | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
+
+### Condition Coverage Tests
+
+ui.generate_report
+
+| Decisions | Conditions |
+|-----------|------------|
+| if not self.students: | students != None |
+| for s in self.students: | index(s) < len(students) |
+| if s.is_passing(): | s.is_passing() == True |
+| if top_student is None or avg > top_student.average(): |  top_student is None, avg > top_student.average() |
+| if global_avg >= 8: | global_avg >= 8 |
+| elif global_avg >= 5: | global_avg >= 5 |
+
+
+| Input | Expected | Conditions |
+|-------|--------|------------|
+| None | NO_DATA | students != None False |
+| student with average 9 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True, global_avg >= 8 True |
+| student with average 6 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True, global_avg >= 8 False, global_avg >= 5 True |
+| student with average 4 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == False, top_student is None True, global_avg >= 8 False, global_avg >= 5 False |
+| student with average 8 and student with average 9 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() True, global_avg >= 8 True |
+| student with average 9 and student with average 8 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() False, global_avg >= 8 True |
+
+
+### Mutation Testing
+
+student.get_letter_grade
+
+| P | [9,9,9] | [8,8,8] | [7,7,7] | [5,5,5] | [4,4,4] | Distinct |
+|---|---------|---------|---------|---------|---------|----------|
+| P | A | B | C | D | F |  |
+| M1 | B | B | C | D | F | Y |
+| M2 | A | C | C | D | F | Y |
+| M3 | A | B | D | D | F | Y |
+| M4 | A | B | C | F | F | Y |
+
+
+
+
+
