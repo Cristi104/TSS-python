@@ -60,6 +60,7 @@ class ui:
 
     def add_student(self, in_string):
         in_string = in_string.split()
+        print(in_string)
         name = ""
         for i in range(len(in_string)): 
             if is_number(in_string[i]):
@@ -70,21 +71,19 @@ class ui:
         for i in range(len(in_string)):
             if not is_number(in_string[i]):
                 continue;
-            try:
-                student.add_grade(float(in_string[i]));
-            except:
-                return
+            student.add_grade(float(in_string[i]));
 
         student = self.db.insert_student(student)
         self.students.append(student)
+        return student
 
     def add_grade(self, in_string):
         in_string = in_string.split()
         id = int(in_string[0])
         grade = float(in_string[1])
         student = self.find_student_by_id(id)
-        student.add_grade(grade)
         if student:
+            student.add_grade(grade)
             self.db.update_student(student)
 
     def remove_student(self, in_string):
