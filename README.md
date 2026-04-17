@@ -193,19 +193,22 @@ V(G) = 16 − 14 + 2 = 4
 ### Statement Coverage Tests
 
 ui.menu statemnt graph
+
+
 ![graph](./docs/menu_graph.png)
 
 | Input | Expected Output | Statements Covered |
 |-------|----------------|--------------------|
-| "0\n" | program exit | 1...5,6,23 |
-| "1\n" | student list printed | 1...5,7,8,23 |
-| "2\n" | format message | 1...5,7,9...12,23 |
-| "3\n" | student list + prompt | 1...5,7,9,13...17,23 |
-| "4\n" | format message | 1...5,7,9,13,18...23 |
-| "5\n" | report generated | 1...5,7,9,13,19...22,23 |
-| "6 valid" | filtered students printed | 1...5,7,9,13,24...35 |
-| "6 empty result" | No students found | 1...5,7,9,13,24...35 |
-| "6 invalid input" | error message | 1...5,7,9,13,24...35 |
+| "0" | program exit | 1...8,55 |
+| "1" | student list printed | 1...6,11,55 |
+| "2" | format message | 1...6,11,13,14...16,55 |
+| "3" | student list + prompt | 1...6,11,13,18,19...22,55 |
+| "4" | format message | 1...6,11,13,18,24,25...28,55 |
+| "5" | report generated | 1...6,11,13,18,24,30,31...3355 |
+| "6 invalid input" | error message | 1...6,11,13,18,24,30,35,36...38,39,40...42,55 |
+| "6 valid" | filtered students printed | 1...6,11,13,18,24,30,35,36...38,39,43,44,53...5455 |
+| "6 empty result" | No students found | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,48,55 |
+| "6 invalid range" | error message | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
 
 
 ### Condition Coverage Tests
@@ -221,7 +224,7 @@ ui.add_student
 
 | Input | Expected | Decisions |
 |-------|--------|------------|
-| "" | \<value error>  | i < len(in_string) False |
-| "1" | \<value error> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
-| "nume" | \<student created> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
-| "nume 1" | \<student created with grades> | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
+| "" | value error  | i < len(in_string) False |
+| "1" | value error | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
+| "nume" | student created | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
+| "nume 1" | student created with grades | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
