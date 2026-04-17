@@ -211,16 +211,16 @@ ui.menu statemnt graph
 | "6 invalid range" | error message | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
 
 
-### Condition Coverage Tests
+### Decision Coverage Tests
 
 ui.add_student
 ![graph](./docs/student_graph.png)
 
-| Decisions | Conditions |
-|-----------|------------|
-| for i in range(len(in_string)): | i < len(in_string) |
-| if is_number(in_string[i]): | is_number(in_string[i])
-| if not is_number(in_string[i]): | not is_number(in_string[i]) |
+| Decisions |
+|-----------|
+| for i in range(len(in_string)): |
+| if is_number(in_string[i]): |
+| if not is_number(in_string[i]):
 
 | Input | Expected | Decisions |
 |-------|--------|------------|
@@ -228,3 +228,32 @@ ui.add_student
 | "1" | value error | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
 | "nume" | student created | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
 | "nume 1" | student created with grades | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
+
+### Condition Coverage Tests
+
+ui.generate_report
+
+| Decisions | Conditions |
+|-----------|------------|
+| if not self.students: | students != None |
+| for s in self.students: | index(s) < len(students) |
+| if s.is_passing(): | s.is_passing() == True |
+| if top_student is None or avg > top_student.average(): |  top_student is None, avg > top_student.average() |
+| if global_avg >= 8: | global_avg >= 8 |
+| elif global_avg >= 5: | global_avg >= 5 |
+
+
+| Input | Expected | Conditions |
+|-------|--------|------------|
+| None | NO_DATA | students != None False |
+| student with average 9 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True, global_avg >= 8 True |
+| student with average 6 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True, global_avg >= 8 False, global_avg >= 5 True |
+| student with average 4 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == False, top_student is None True, global_avg >= 8 False, global_avg >= 5 False |
+| student with average 8 and student with average 9 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() True, global_avg >= 8 True |
+| student with average 9 and student with average 8 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() False, global_avg >= 8 True |
+
+
+
+
+
+
