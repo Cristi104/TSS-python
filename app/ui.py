@@ -1,5 +1,5 @@
-import db
-from student import Student
+from app import db
+from app.student import Student
 
 def is_number(s):
     try:
@@ -16,28 +16,38 @@ class ui:
     def menu(self):
         should_exit = False
         while not should_exit:
-            print("\n1 - show students\n2 - add student\n3 - remove student\n4 - add grade\n0 - exit\n")
+            print("\n1 - show students\n2 - add student\n3 - remove student\n4 - add grade\n5 - generate report\n0 - exit\n")
             in_string = input()
             opcode = int(in_string)
+
             if opcode == 0:
                 should_exit = True
                 continue
+
             elif opcode == 1:
                 self.print_students()
+
             elif opcode == 2:
                 print("Format: <name> [grade1 [grade2 [...]]]")
                 in_string = input()
                 self.add_student(in_string)
+
             elif opcode == 3:
                 self.print_students()
                 print("Student id:")
                 in_string = input()
                 self.remove_student(in_string)
+
             elif opcode == 4:
                 self.print_students()
                 print("Format: <id> <grade>")
                 in_string = input()
                 self.add_grade(in_string)
+
+            elif opcode == 5:
+                report = self.generate_report()
+                print("\n=== REPORT ===")
+                print(report)
             
     def print_students(self):
         print("\n".join([i.__str__() for i in self.students]))
@@ -83,3 +93,39 @@ class ui:
         if student:
             self.db.delete_student(student)
             self.students.remove(student)
+
+    def generate_report(self):
+        if not self.students:
+            return "NO_DATA" 
+
+        total = len(self.students)
+        passing = 0
+        total_avg = 0
+        top_student = None
+
+        for s in self.students:
+            avg = s.average()
+            total_avg += avg
+
+            if s.is_passing():
+                passing += 1
+
+            if top_student is None or avg > top_student.average():
+                top_student = s
+
+        global_avg = total_avg / total
+
+        if global_avg >= 8:
+            performance = "HIGH"
+        elif global_avg >= 5:
+            performance = "MEDIUM"
+        else:
+            performance = "LOW"
+
+        return {
+            "total": total,
+            "passing": passing,
+            "avg": global_avg,
+            "performance": performance,
+            "top": top_student.name
+        }
