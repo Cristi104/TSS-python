@@ -1,4 +1,4 @@
-### Equivalence Partitioning - Student Module
+## Equivalence Partitioning - Student Module
 
 | Category | Class | Description | Example |
 |----------|------|-------------|---------|
@@ -20,7 +20,7 @@
 
 ---
 
-### Equivalence Partitioning - Test Cases
+## Equivalence Partitioning - Test Cases
 
 | Test ID | Input | Expected Output |
 |----------|------|----------------|
@@ -39,7 +39,7 @@
 
 ---
 
-### Boundary Value Analysis - Student Module
+## Boundary Value Analysis - Student Module
 
 | Feature | Boundary | Values | Expected |
 |----------|---------|--------|----------|
@@ -60,7 +60,7 @@
 
 ---
 
-### Boundary Test Cases
+## Boundary Value Analysis - Test Cases
 
 | Test ID | Input | Expected |
 |----------|------|----------|
@@ -83,7 +83,7 @@
 
 ---
 
-### Category Partitioning - Filter Functionality
+## Category Partitioning - Filter Functionality
 
 | Category | Class | Description | Condition |
 |----------|------|-------------|----------|
@@ -92,34 +92,30 @@
 | Average Position | AP1 | below interval | avg < min |
 | Average Position | AP2 | inside interval | min ≤ avg ≤ max |
 | Average Position | AP3 | above interval | avg > max |
-| Boundary | B1 | avg = min | lower boundary |
-| Boundary | B2 | avg = max | upper boundary |
+| Average Position | AP4 | lower boundary | avg = min |
+| Average Position | AP5 | upper boundary | avg = max |
 | Students | S1 | empty list | no students |
 | Students | S2 | one student | single case |
 | Students | S3 | multiple students | mixed values |
 
 ---
 
-### Category Partitioning - Test Cases
+## Category Partitioning - Test Cases
 
 | Test ID | Categories Covered | Input | Expected Output |
 |----------|------------------|------|----------------|
 | CP1 | I1 + AP2 + S2 | [6,6], range(5,7) | student included |
 | CP2 | I1 + AP1 + S2 | [4,4], range(5,7) | empty result |
 | CP3 | I1 + AP3 + S2 | [9,9], range(5,7) | empty result |
-| CP4 | I1 + B1 + S2 | [5,5], range(5,7) | included |
-| CP5 | I1 + B2 + S2 | [7,7], range(5,7) | included |
+| CP4 | I1 + AP4 + S2 | [5,5], range(5,7) | included |
+| CP5 | I1 + AP5 + S2 | [7,7], range(5,7) | included |
 | CP6 | I2 | range(7,5) | ValueError |
-| CP7 | I1 + S3 + AP1/AP2/AP3 | mixed students | only valid returned |
+| CP7 | I1 + S3 + AP1/AP2/AP3/AP4/AP5 | mixed students | only valid returned |
 | CP8 | I1 + S1 | empty list | empty result |
 
 ---
 
-### Independent Circuits Coverage - Student Report Module
-
----
-
-## Control Flow Graph (CFG)
+## Independent Circuits - Report Functionality
 
 Nodes:
 
@@ -152,7 +148,6 @@ loop back to 4
 
 ---
 
-## Cyclomatic Complexity (McCabe)
 
 Using formula:
 
@@ -160,15 +155,11 @@ V(G) = e − n + 2
 
 Where:
 - n = 14 nodes
-- e = 16 edges (approx. from CFG)
+- e = 16 edges
 
 V(G) = 16 − 14 + 2 = 4
 
-➡ Number of independent circuits = 4
-
----
-
-## Independent Circuits (Basis Paths)
+Number of independent circuits = 4
 
 | Circuit ID | Path | Description |
 |------------|------|-------------|
@@ -179,7 +170,7 @@ V(G) = 16 − 14 + 2 = 4
 
 ---
 
-## Test Mapping
+## Independent Circuits - Test Cases
 
 | Test ID | Circuit |
 |----------|--------|
@@ -190,7 +181,7 @@ V(G) = 16 − 14 + 2 = 4
 
 ---
 
-### Statement Coverage Tests
+## Statement Coverage Tests
 
 ui.menu statemnt graph
 
@@ -211,7 +202,7 @@ ui.menu statemnt graph
 | "6 invalid range" | error message | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
 
 
-### Decision Coverage Tests
+## Decision Coverage Tests
 
 ui.add_student
 ![graph](./docs/student_graph.png)
@@ -229,7 +220,7 @@ ui.add_student
 | "nume" | student created | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
 | "nume 1" | student created with grades | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
 
-### Condition Coverage Tests
+## Condition Coverage Tests
 
 ui.generate_report
 
@@ -253,7 +244,7 @@ ui.generate_report
 | student with average 9 and student with average 8 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() False, global_avg >= 8 True |
 
 
-### Mutation Testing
+## Mutation Testing
 
 student.get_letter_grade
 

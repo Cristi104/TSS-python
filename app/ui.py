@@ -81,7 +81,6 @@ class ui:
 
     def add_student(self, in_string):
         in_string = in_string.split()
-        print(in_string)
         name = ""
         for i in range(len(in_string)): 
             if is_number(in_string[i]):
