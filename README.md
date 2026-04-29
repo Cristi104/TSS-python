@@ -186,7 +186,7 @@ Number of independent circuits = 4
 ui.menu statemnt graph
 
 
-![graph](./docs/menu_graph.png)
+![graph](./docs/menu_graph2.png)
 
 | Input | Expected Output | Statements Covered |
 |-------|----------------|--------------------|
