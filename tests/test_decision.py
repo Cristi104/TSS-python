@@ -107,6 +107,11 @@ def test_7(monkeypatch, capsys):
     assert "\n1 - show students\n2 - add student\n3 - remove student\n4 - add grade\n5 - generate report\n6 - filter students by average\n0 - exit\n" in captured.out
 
 ## ui.filter_students
+def test_1_2():
+    app = ui()
+    with pytest.raises(ValueError):
+        result = app.filter_students(-1, 2)
+
 def test_4_6():
     app = ui()
     result = app.filter_students(4, 6)

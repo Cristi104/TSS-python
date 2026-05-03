@@ -153,6 +153,8 @@ class ui:
         }
     
     def filter_students(self, min_avg, max_avg):
+        if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10:
+            raise ValueError("Input must be between 0 and 10")
         if min_avg > max_avg:
             raise ValueError("Invalid range")
 

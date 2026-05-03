@@ -1,87 +1,59 @@
-## Equivalence Partitioning - Student Module
+## Descriere
 
-| Category | Class | Description | Example |
-|----------|------|-------------|---------|
-| Grade | G1 | 1 ≤ grade ≤ 10 (valid) | 7 |
-| Grade | G2 | grade < 1 (invalid) | -3 |
-| Grade | G3 | grade > 10 (invalid) | 15 |
-| List size | L1 | 0–6 grades | [5,6,7] |
-| List size | L2 | 7 grades (limit) | 7 values |
-| List size | L3 | >7 grades | 8+ values |
-| Average | A1 | empty list | [] |
-| Average | A2 | non-empty list | [5,6,7] |
-| Letter Grade | LG1 | avg ≥ 9 | A |
-| Letter Grade | LG2 | 8 ≤ avg < 9 | B |
-| Letter Grade | LG3 | 7 ≤ avg < 8 | C |
-| Letter Grade | LG4 | 5 ≤ avg < 7 | D |
-| Letter Grade | LG5 | avg < 5 | F |
-| Passing | P1 | avg ≥ 5 | True |
-| Passing | P2 | avg < 5 | False |
+Aplicatia are rolul de a ajuta caderele diactice cu gestionarea studentilor.
 
----
+## Partitionare de echivalenta
 
-## Equivalence Partitioning - Test Cases
+Pentru impartire in clase de echivalenta a functie ui.menu trebuie sa identificam mai intai domeniul de intrari. Funcita functionaza prin citirea unui numar intreg care selecteaza operatia si ulterior alte date sau nu in functie de operatie, astfel avem urmatoarele clase: 
+- pentru numerele de la 0 la 6 fiecare are o clasa
+- pentru orice alt numar o clasa
 
-| Test ID | Input | Expected Output |
-|----------|------|----------------|
-| EP1 | add_grade(7) | accepted |
-| EP2 | add_grade(-1) | ValueError |
-| EP3 | add_grade(11) | ValueError |
-| EP4 | [] | average = 0 |
-| EP5 | [5,6,7] | average = 6 |
-| EP6 | [9,9,9] | A |
-| EP7 | [8,8,8] | B |
-| EP8 | [7,7,7] | C |
-| EP9 | [5,5,5] | D |
-| EP10 | [4,4,4] | F |
-| EP11 | avg ≥ 5 | is_passing = True |
-| EP12 | avg < 5 | is_passing = False |
+| Intrari | Iesiri |
+|---------|--------|
+| 0 | isesire din program |
+| 1 | afisare studenti |
+| 2 | adaugare student |
+| 3 | stergere student |
+| 4 | adaugare nota student |
+| 5 | generare raport |
+| 6 | filtru studenti |
+| 7 | intrare ignorata |
 
----
+Pentru functia ui.filter_students am identificat urmatoarele clase de echivalenta:
+- intrare valida pentru numere de la 0 la 10 cu min < max
+- intrare invalida pentru numere mai mici ca 0
+- intrare invalida pentru numere mai mari ca 10
+- intrare invalida pentru minim mai mare ca maxim
 
-## Boundary Value Analysis - Student Module
+| Intrari | Iesiri |
+|---------|--------|
+| 4 6 | lista studenti |
+| -1 2 | numar invalid |
+| 2 11 | numar invalid |
+| 6 4 | interval invalid |
 
-| Feature | Boundary | Values | Expected |
-|----------|---------|--------|----------|
-| Grade | lower invalid | 0 | Error |
-| Grade | lower valid | 1 | OK |
-| Grade | upper valid | 10 | OK |
-| Grade | upper invalid | 11 | Error |
-| List size | near max | 6 | OK |
-| List size | max | 7 | OK |
-| List size | overflow | 8 | Error |
-| Letter grade | A threshold | 9 | A |
-| Letter grade | B threshold | 8 | B |
-| Letter grade | C threshold | 7 | C |
-| Letter grade | D threshold | 5 | D |
-| Letter grade | F threshold | 4.99 | F |
-| Passing | boundary false | 4.99 | False |
-| Passing | boundary true | 5 | True |
+## Analiza valori de frontiera
 
----
+| Intrari | Iesiri |
+|---------|--------|
+| -1 | intrare ignorata |
+| 0 | isesire din program |
+| 1 | afisare studenti |
+| 2 | adaugare student |
+| 3 | stergere student |
+| 4 | adaugare nota student |
+| 5 | generare raport |
+| 6 | filtru studenti |
+| 7 | intrare ignorata |
 
-## Boundary Value Analysis - Test Cases
 
-| Test ID | Input | Expected |
-|----------|------|----------|
-| BV1 | add_grade(0) | ValueError |
-| BV2 | add_grade(1) | OK |
-| BV3 | add_grade(10) | OK |
-| BV4 | add_grade(11) | ValueError |
-| BV5 | 7 grades | OK |
-| BV6 | 8th grade | ValueError |
-| BV7 | [4.97, 5, 5] | F |
-| BV8 | [5, 5, 5] | D |
-| BV9 | [6.97, 7, 7] | D |
-| BV10 | [7, 7, 7] | C |
-| BV11 | [7.97, 8, 8] | C |
-| BV12 | [8, 8, 8] | B |
-| BV13 | [8.97, 9, 9] | B |
-| BV14 | [9, 9, 9] | A |
-| BV15 | [4.97, 5, 5] | is_passing = False |
-| BV16 | [5, 5, 5] | is_passing = True |
-
----
+| Intrari | Iesiri |
+|---------|--------|
+| 0 0 | lista studenti |
+| 10 10 | lista studenti |
+| 11 11 | numar invalid |
+| -1 -1 | numar invalid |
+| 1 0 | interval invalid |
 
 ## Category Partitioning - Filter Functionality
 
@@ -207,8 +179,9 @@ Aceasi metoda este folosita si pentru functia ui.filter_students pentru a obtine
 
 | Input | Expected Output | Statements Covered |
 |-------|----------------|--------------------|
-| 6 4 | value error | 1,2 |
-| 4 6 | student list | 1,3-9 |
+| -1 2 | value error | 1,2 |
+| 6 4 | value error | 1,3,4 |
+| 4 6 | student list | 1,3,5-11 |
 
 
 ## Decision Coverage Tests
@@ -250,15 +223,17 @@ Aceasi metoda a fost utilizata pentru functia ui.filter_students
 
 | Nr | Decisions |
 |----|-----------|
-| 1 | if min_avg > max_avg: |
-| 2 | for s in self.students: |
-| 3 | if min_avg <= avg <= max_avg: |
+| 1 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 |
+| 2 | if min_avg > max_avg: |
+| 3 | for s in self.students: |
+| 4 | if min_avg <= avg <= max_avg: |
 
 | Input | Output | Decisions |
-|-------|--------|-----------|
-| 6 4 | value error | 1 True |
-| 4 6 (student with average in range) | student list | 1 False, 2 True False, 3 True |
-| 1 2 (student not in range) | student list | 1 False, 2 True False, 3 False |
+|-------|--------|-----------
+| -1 2 | value error | 1 True |
+| 6 4 | value error | 1 False, 2 True |
+| 4 6 (student with average in range) | student list | 1 False, 2 False, 3 True False, 4 True |
+| 1 2 (student not in range) | student list | 1 False, 2 False, 3 True False, 4 False |
 
 ## Condition Coverage Tests
 
@@ -299,16 +274,24 @@ In funcita ui.filter_students are mai multe conditii in decizia 3 astfel setul d
 
 | Nr | Decisions | Conditions |
 |----|-----------|------------|
-| 1 | if min_avg > max_avg: | min_avg > max_avg |
-| 2 | for s in self.students: | s in self.students |
-| 3 | if min_avg <= avg <= max_avg: | min_avg <= avg |
-| 4 | if min_avg <= avg <= max_avg: | avg <= max_avg |
+| 1 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 | min_avg < 0 |
+| 2 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 | min_avg > 10 |
+| 3 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 | max_avg < 0 |
+| 4 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 | max_avg > 10 |
+| 5 | if min_avg > max_avg: | min_avg > max_avg |
+| 6 | for s in self.students: | s in self.students |
+| 7 | if min_avg <= avg <= max_avg: | min_avg <= avg |
+| 8 | if min_avg <= avg <= max_avg: | avg <= max_avg |
 
 | Input | Output | Decisions |
 |-------|--------|-----------|
-| 6 4 | value error | 1 True |
-| 1 2 (student above range) | student list | 1 False, 2 True False, 3 True, 4 False |
-| 9 10 (student bellow range) | student list | 1 False, 2 True False, 3 False, 4 True |
+| -1 2 | value error | 1 False |
+| 11 2 | value error | 2 False |
+| 2 -1 | value error | 3 False |
+| 2 11 | value error | 4 False |
+| 6 4 | value error | 1-4 False 5 True |
+| 1 2 (student above range) | student list | 1-4 False 5 False, 6 True False, 7 True, 8 False |
+| 9 10 (student bellow range) | student list | 1-4 False 5 False, 6 True False, 7 False, 8 True |
 
 
 ## Muatation testing
