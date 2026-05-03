@@ -183,10 +183,12 @@ Number of independent circuits = 4
 
 ## Statement Coverage Tests
 
-ui.menu statemnt graph
-
+Pentru testarea la nivel de instructiune primul pas este transformarea programului intr-un graf orientat (graful din stanga este graful pentru functia ui.menu, cel din dreapta este pentru functia ui.filter_students)
 
 ![graph](./docs/menu_graph2.png)
+![graph](./docs/filter_graph.png)
+
+Pentru a obtine un set de teste care acopera toate instructiunile din funcia ui.menu folosim graful orintat corespunzator pentru a identifica un set de date care in urma rulari atinge fiecare instructiune cel putin odata. In urma analizei grafului am obtinut setul urmator de teste:
 
 | Input | Expected Output | Statements Covered |
 |-------|----------------|--------------------|
@@ -201,62 +203,115 @@ ui.menu statemnt graph
 | "6 empty result" | No students found | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,48,55 |
 | "6 invalid range" | error message | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
 
+Aceasi metoda este folosita si pentru functia ui.filter_students pentru a obtine acest set de date.
+
+| Input | Expected Output | Statements Covered |
+|-------|----------------|--------------------|
+| 6 4 | value error | 1,2 |
+| 4 6 | student list | 1,3-9 |
+
 
 ## Decision Coverage Tests
 
-ui.add_student
-![graph](./docs/student_graph.png)
+Pentru testare la nivel de decizie analizam programul si graful orientat al acestuia pentru a extrage instructiunile de decizie (if, for, while, try except) in ui.menu am gasit urmatoarele decizi
 
-| Decisions |
-|-----------|
-| for i in range(len(in_string)): |
-| if is_number(in_string[i]): |
-| if not is_number(in_string[i]):
+| Nr | Decisions |
+|----|-----------|
+| 1 | while not should_exit |
+| 2 | if opcode == 0 |
+| 3 | if opcode == 1 |
+| 4 | if opcode == 2 |
+| 5 | if opcode == 3 |
+| 6 | if opcode == 4 |
+| 7 | if opcode == 5 |
+| 8 | if opcode == 6 |
+| 9 | try map(float, in_string.split()) |
+| 10 | try self.filter_students(min_avg, max_avg) |
+| 11 | if not result |
+| 12 | for s in result |
 
-| Input | Expected | Decisions |
-|-------|--------|------------|
-| "" | value error  | i < len(in_string) False |
-| "1" | value error | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): True, |
-| "nume" | student created | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, |
-| "nume 1" | student created with grades | i < len(in_string) True, i < len(in_string) False, is_number(in_string[0]): False, is_number(in_string[i]): True, |
+Setul de date de test urmaotare a fost ales astfel incat fiecare dintre cele 12 decizi sa fie cel putin odata adevarate si odata false
+
+| Input | Output | Decisions |
+|-------|--------|-----------|
+| 0 | program exit | 1 True False, 2 True |
+| 1 | student list printed | 1 True, 2 False, 3 True|
+| 2 | format message | 1 True, 2-3 False, 4 True |
+| 3 | student list + prompt | 1 True, 2-4 False, 5 True |
+| 4 | format message | 1 True, 2-5 False, 6 True |
+| 5 | report generated | 1 True, 2-6 False, 7 True |
+| 6 "invalid input" | error message | 1 True False, 2-7 False, 8 True, 9 False |
+| 6 "valid" | filtered students printed | 1 True, 2-7 False, 8 True, 9 True, 10 True, 11 False, 12 True False |
+| 6 "empty result" | No students found | 1 True, 2-7 False, 8 True, 9 True 10 True, 11 True |
+| 6 "invalid range" | error message | 1 True, 2-7 False, 8 True, 9 True, 10 False |
+| 7 | input igonred wait for other operation | 1 True, 2-8 False |
+
+Aceasi metoda a fost utilizata pentru functia ui.filter_students
+
+| Nr | Decisions |
+|----|-----------|
+| 1 | if min_avg > max_avg: |
+| 2 | for s in self.students: |
+| 3 | if min_avg <= avg <= max_avg: |
+
+| Input | Output | Decisions |
+|-------|--------|-----------|
+| 6 4 | value error | 1 True |
+| 4 6 (student with average in range) | student list | 1 False, 2 True False, 3 True |
+| 1 2 (student not in range) | student list | 1 False, 2 True False, 3 False |
 
 ## Condition Coverage Tests
 
-ui.generate_report
+Pentru testare la nivel de impartim deciziile identificate anterior in mai multe conditii (daca este posibil).
 
-| Decisions | Conditions |
-|-----------|------------|
-| if not self.students: | students != None |
-| for s in self.students: | index(s) < len(students) |
-| if s.is_passing(): | s.is_passing() == True |
-| if top_student is None or avg > top_student.average(): |  top_student is None, avg > top_student.average() |
-| if global_avg >= 8: | global_avg >= 8 |
-| elif global_avg >= 5: | global_avg >= 5 |
+| Nr | Decisions | Conditions |
+|----|-----------|------------|
+| 1 | while not should_exit | not should_exit |
+| 2 | if opcode == 0 | opcode == 0 |
+| 3 | if opcode == 1 | opcode == 1 |
+| 4 | if opcode == 2 | opcode == 2 |
+| 5 | if opcode == 3 | opcode == 3 |
+| 6 | if opcode == 4 | opcode == 4 |
+| 7 | if opcode == 5 | opcode == 5 |
+| 8 | if opcode == 6 | opcode == 6 |
+| 9 | try map(float, in_string.split()) | map(float, in_string.split()) throws |
+| 10 | try self.filter_students(min_avg, max_avg) | self.filter_students(min_avg, max_avg) throws |
+| 11 | if not result | not result |
+| 12 | for s in result | s in result |
 
+Cum deciziile din functia ui.menu nu pot fi imparite in mai multe decizii setul de teste gasit este identic cu cel de la testare la nivel de decizie
 
 | Input | Expected | Conditions |
-|-------|--------|------------|
-| None | NO_DATA | students != None False |
-| student with average 9 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True, global_avg >= 8 True |
-| student with average 6 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True, global_avg >= 8 False, global_avg >= 5 True |
-| student with average 4 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == False, top_student is None True, global_avg >= 8 False, global_avg >= 5 False |
-| student with average 8 and student with average 9 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() True, global_avg >= 8 True |
-| student with average 9 and student with average 8 |  | students != None True, index(s) < len(students) True/False, s.is_passing() == True, top_student is None True/False, avg > top_student.average() False, global_avg >= 8 True |
+|-------|----------|------------|
+| 0 | program exit | 1 True False, 2 True |
+| 1 | student list printed | 1 True, 2 False, 3 True|
+| 2 | format message | 1 True, 2-3 False, 4 True |
+| 3 | student list + prompt | 1 True, 2-4 False, 5 True |
+| 4 | format message | 1 True, 2-5 False, 6 True |
+| 5 | report generated | 1 True, 2-6 False, 7 True |
+| 6 "invalid input" | error message | 1 True False, 2-7 False, 8 True, 9 False |
+| 6 "valid" | filtered students printed | 1 True, 2-7 False, 8 True, 9 True, 10 True, 11 False, 12 True False |
+| 6 "empty result" | No students found | 1 True, 2-7 False, 8 True, 9 True 10 True, 11 True |
+| 6 "invalid range" | error message | 1 True, 2-7 False, 8 True, 9 True, 10 False |
+| 7 | input igonred wait for other operation | 1 True, 2-8 False |
+
+In funcita ui.filter_students are mai multe conditii in decizia 3 astfel setul de date de test gasite aici este diferit.
+
+| Nr | Decisions | Conditions |
+|----|-----------|------------|
+| 1 | if min_avg > max_avg: | min_avg > max_avg |
+| 2 | for s in self.students: | s in self.students |
+| 3 | if min_avg <= avg <= max_avg: | min_avg <= avg |
+| 4 | if min_avg <= avg <= max_avg: | avg <= max_avg |
+
+| Input | Output | Decisions |
+|-------|--------|-----------|
+| 6 4 | value error | 1 True |
+| 1 2 (student above range) | student list | 1 False, 2 True False, 3 True, 4 False |
+| 9 10 (student bellow range) | student list | 1 False, 2 True False, 3 False, 4 True |
 
 
-## Mutation Testing
-
-student.get_letter_grade
-
-| P | [9,9,9] | [8,8,8] | [7,7,7] | [5,5,5] | [4,4,4] | Distinct |
-|---|---------|---------|---------|---------|---------|----------|
-| P | A | B | C | D | F |  |
-| M1 | B | B | C | D | F | Y |
-| M2 | A | C | C | D | F | Y |
-| M3 | A | B | D | D | F | Y |
-| M4 | A | B | C | F | F | Y |
-
-
-
-
-
+## Muatation testing
+Testarea la nivel de mutatii pentru cele doua functii ui.menu si ui.filter_students a fost realizata cu unealta mutmut pentru a genera mutatii dupa utilizarea acestuia am agsit urmaotarele rezultate:
+- pentru ui.menu singuri mutanti neeliminati sunt cei care modifica codul folosit pentru iesirea din program (astfel programul nu se mai opreste singur)
+- pentru ui.filter_students singuri mutatii neelimintai sunt cei care modifica mesajul de la exceptia ValueError

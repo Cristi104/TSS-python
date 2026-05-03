@@ -1,6 +1,7 @@
 from app import db
 from app.student import Student
 
+# pragma: no mutate start
 def is_number(s):
     try:
         float(s)
@@ -13,6 +14,7 @@ class ui:
         self.db = db.Database()
         self.students = self.db.populate_table()
 
+# pragma: no mutate end
     def menu(self):
         should_exit = False
         while not should_exit:
@@ -55,7 +57,7 @@ class ui:
                 try:
                     min_avg, max_avg = map(float, in_string.split())
                 except ValueError:
-                    print("Invalid input ")
+                    print("Invalid input")
                     continue
                 try:
                     result = self.filter_students(min_avg, max_avg)
@@ -69,7 +71,8 @@ class ui:
 
                 except ValueError:
                     print("Invalid range")
-            
+
+# pragma: no mutate start
     def print_students(self):
         print("\n".join([i.__str__() for i in self.students]))
 
@@ -160,3 +163,4 @@ class ui:
                 result.append(s)
                 
         return result
+# pragma: no mutate end
