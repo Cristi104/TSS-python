@@ -20,4 +20,5 @@ ms-playwright/
 students.db
 
 .coverage
+htmlcov/
 mutants/
