@@ -93,7 +93,9 @@ Pentru funcția ui.filter_students am identificat următoarele clase de echivale
 Pentru testarea la nivel de instrucțiune primul pas este transformarea programului într-un graf orientat (graful din stânga este graful pentru funcția ui.menu, cel din dreapta este pentru funcția ui.filter_students)
 
 ![graph](./docs/menu_graph2.png)
+![graph](./docs/menu.png)
 ![graph](./docs/filter_graph.png)
+![graph](./docs/filter.png)
 
 Pentru a obține un set de teste care acoperă toate instrucțiunile din funcția ui.menu folosim graful orientat corespunzător pentru a identifica un set de date care în urma rulării atinge fiecare instrucțiune cel puțin o dată. În urma analizei grafului am obținut setul următor de teste:
 
