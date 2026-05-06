@@ -13,10 +13,10 @@ Proiectul a fost dezvoltat și testat pe două sisteme diferite, corespunzătoar
 - Sistem de operare: Windows 11 Pro
 
 ### Sistem 2:
-- Procesor:
-- Memorie RAM:
-- Spațiu de stocare:
-- Sistem de operare: 
+- Procesor: Ryzen 7 5700U
+- Memorie RAM: 16 GB
+- Spațiu de stocare: 512 GB SSD 
+- Sistem de operare: linux-7.0.3-1-cachyos
 
 Aplicația nu are cerințe hardware ridicate, fiind compatibilă cu majoritatea sistemelor moderne. Testarea pe două medii diferite a contribuit la verificarea portabilității și consistenței comportamentului aplicației.
 
@@ -221,10 +221,10 @@ Cum deciziile din funcția ui.menu nu pot fi împărțite în mai multe condiți
 
 | Intrare | Ieșire | Decizii |
 |-------|--------|-----------|
-| -1 2 | eroare valoare | 1 False |
-| 11 2 | eroare valoare | 2 False |
-| 2 -1 | eroare valoare | 3 False |
-| 2 11 | eroare valoare | 4 False |
+| -1 2 | eroare valoare | 1 True |
+| 11 2 | eroare valoare | 2 True |
+| 2 -1 | eroare valoare | 3 True |
+| 2 11 | eroare valoare | 4 True |
 | 6 4 | eroare valoare | 1-4 False 5 True |
 | 1 2 (student peste interval) | listă studenți | 1-4 False 5 False, 6 True False, 7 True, 8 False |
 | 9 10 (student sub interval) | listă studenți | 1-4 False 5 False, 6 True False, 7 False, 8 True |
