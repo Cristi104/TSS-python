@@ -1,194 +1,129 @@
-## Descriere
+## Descriere generală a aplicației
 
-Aplicatia are rolul de a ajuta caderele diactice cu gestionarea studentilor.
+Proiectul constă într-o aplicație de tip consolă pentru gestionarea unei evidențe simple de studenți și note. Prin intermediul meniului, utilizatorul poate adăuga studenți, poate introduce note, poate șterge înregistrări și poate vizualiza lista existentă. Pe lângă administrarea datelor, aplicația oferă și informații utile despre rezultatele academice. Aceasta calculează mediile studenților, poate genera un raport general asupra performanței și permite filtrarea studenților în funcție de un interval al mediei.
 
-## Partitionare de echivalenta
+## Configurația hardware
 
-Pentru impartire in clase de echivalenta a functie ui.menu trebuie sa identificam mai intai domeniul de intrari. Funcita functionaza prin citirea unui numar intreg care selecteaza operatia si ulterior alte date sau nu in functie de operatie, astfel avem urmatoarele clase: 
-- pentru numerele de la 0 la 6 fiecare are o clasa
-- pentru orice alt numar o clasa
+Proiectul a fost dezvoltat și testat pe două sisteme diferite, corespunzătoare membrilor echipei. Ambele sisteme au avut configurații suficiente pentru rularea aplicației fără probleme de performanță:
 
-| Intrari | Iesiri |
+### Sistem 1:
+- Procesor: Intel Core I7-12700H
+- Memorie RAM: 16 GB
+- Spațiu de stocare: SSD
+- Sistem de operare: Windows 11 Pro
+
+### Sistem 2:
+- Procesor:
+- Memorie RAM:
+- Spațiu de stocare:
+- Sistem de operare: 
+
+Aplicația nu are cerințe hardware ridicate, fiind compatibilă cu majoritatea sistemelor moderne. Testarea pe două medii diferite a contribuit la verificarea portabilității și consistenței comportamentului aplicației.
+
+## Configurația software
+- Limbaj de programare: Python 
+- Bază de date: SQLite
+- Framework de testare: pytest
+- Măsurarea acoperirii codului: pytest-cov
+- Tool pentru testare mutațională: mutmut
+- Mediu de dezvoltare: Visual Studio Code
+
+## Utilizarea unei mașini virtuale
+
+În cadrul proiectului nu a fost utilizată o mașină virtuală. În schimb, s-a folosit un virtual environment (venv) pentru Python, cu scopul de a izola dependențele proiectului și a evita conflictele cu alte pachete instalate la nivel global.
+
+## Strategii
+
+### Partiționare de echivalență
+
+Pentru împărțire în clase de echivalență a funcției ui.menu trebuie să identificăm mai întâi domeniul de intrări. Funcția funcționează prin citirea unui număr întreg care selectează operația și ulterior alte date sau nu în funcție de operație, astfel avem următoarele clase: 
+- pentru numerele de la 0 la 6 fiecare are o clasă
+- pentru orice alt număr o clasă
+
+| Intrare | Ieșire |
 |---------|--------|
-| 0 | isesire din program |
-| 1 | afisare studenti |
-| 2 | adaugare student |
-| 3 | stergere student |
-| 4 | adaugare nota student |
+| 0 | ieșire din program |
+| 1 | afișare studenți |
+| 2 | adăugare student |
+| 3 | ștergere student |
+| 4 | adăugare notă student |
 | 5 | generare raport |
-| 6 | filtru studenti |
-| 7 | intrare ignorata |
+| 6 | filtru studenți |
+| 7 | intrare ignorată |
 
-Pentru functia ui.filter_students am identificat urmatoarele clase de echivalenta:
-- intrare valida pentru numere de la 0 la 10 cu min < max
-- intrare invalida pentru numere mai mici ca 0
-- intrare invalida pentru numere mai mari ca 10
-- intrare invalida pentru minim mai mare ca maxim
+Pentru funcția ui.filter_students am identificat următoarele clase de echivalență:
+- intrare validă pentru numere de la 0 la 10 cu min < max
+- intrare invalidă pentru numere mai mici ca 0
+- intrare invalidă pentru numere mai mari ca 10
+- intrare invalidă pentru minim mai mare ca maxim
 
-| Intrari | Iesiri |
+| Intrare | Ieșire |
 |---------|--------|
-| 4 6 | lista studenti |
-| -1 2 | numar invalid |
-| 2 11 | numar invalid |
+| 4 6 | listă studenți |
+| -1 2 | număr invalid |
+| 2 11 | număr invalid |
 | 6 4 | interval invalid |
 
-## Analiza valori de frontiera
+--------------------------------------------------
+### Analiza valorilor de frontieră
 
-| Intrari | Iesiri |
+| Intrare | Ieșire |
 |---------|--------|
-| -1 | intrare ignorata |
-| 0 | isesire din program |
-| 1 | afisare studenti |
-| 2 | adaugare student |
-| 3 | stergere student |
-| 4 | adaugare nota student |
+| -1 | intrare ignorată |
+| 0 | ieșire din program |
+| 1 | afișare studenți |
+| 2 | adăugare student |
+| 3 | ștergere student |
+| 4 | adăugare notă student |
 | 5 | generare raport |
-| 6 | filtru studenti |
-| 7 | intrare ignorata |
+| 6 | filtru studenți |
+| 7 | intrare ignorată |
 
-
-| Intrari | Iesiri |
+| Intrare | Ieșire |
 |---------|--------|
-| 0 0 | lista studenti |
-| 10 10 | lista studenti |
-| 11 11 | numar invalid |
-| -1 -1 | numar invalid |
+| 0 0 | listă studenți |
+| 10 10 | listă studenți |
+| 11 11 | număr invalid |
+| -1 -1 | număr invalid |
 | 1 0 | interval invalid |
 
-## Category Partitioning - Filter Functionality
+--------------------------------------------------
+### Acoperire la nivel de instrucțiune
 
-| Category | Class | Description | Condition |
-|----------|------|-------------|----------|
-| Interval | I1 | valid interval | min ≤ max |
-| Interval | I2 | invalid interval | min > max |
-| Average Position | AP1 | below interval | avg < min |
-| Average Position | AP2 | inside interval | min ≤ avg ≤ max |
-| Average Position | AP3 | above interval | avg > max |
-| Average Position | AP4 | lower boundary | avg = min |
-| Average Position | AP5 | upper boundary | avg = max |
-| Students | S1 | empty list | no students |
-| Students | S2 | one student | single case |
-| Students | S3 | multiple students | mixed values |
-
----
-
-## Category Partitioning - Test Cases
-
-| Test ID | Categories Covered | Input | Expected Output |
-|----------|------------------|------|----------------|
-| CP1 | I1 + AP2 + S2 | [6,6], range(5,7) | student included |
-| CP2 | I1 + AP1 + S2 | [4,4], range(5,7) | empty result |
-| CP3 | I1 + AP3 + S2 | [9,9], range(5,7) | empty result |
-| CP4 | I1 + AP4 + S2 | [5,5], range(5,7) | included |
-| CP5 | I1 + AP5 + S2 | [7,7], range(5,7) | included |
-| CP6 | I2 | range(7,5) | ValueError |
-| CP7 | I1 + S3 + AP1/AP2/AP3/AP4/AP5 | mixed students | only valid returned |
-| CP8 | I1 + S1 | empty list | empty result |
-
----
-
-## Independent Circuits - Report Functionality
-
-Nodes:
-
-1. Start  
-2. if students list empty  
-3. return "NO_DATA"  
-4. loop over students  
-5. compute average  
-6. if passing student  
-7. increment passing  
-8. if top student  
-9. update top student  
-10. compute global average  
-11. if avg >= 8 (HIGH)  
-12. else if avg >= 5 (MEDIUM)  
-13. else (LOW)  
-14. return report  
-
-CFG (text form):
-
-
-1 → 2 → (3 or 4)
-3 → END
-4 → 5 → 6 → (7)
-6 → (8)
-8 → (9)
-loop back to 4
-4 → 10 → 11 → 12 → 13 → 14
-
-
----
-
-
-Using formula:
-
-V(G) = e − n + 2
-
-Where:
-- n = 14 nodes
-- e = 16 edges
-
-V(G) = 16 − 14 + 2 = 4
-
-Number of independent circuits = 4
-
-| Circuit ID | Path | Description |
-|------------|------|-------------|
-| C1 | 1 → 2 → 3 | Empty dataset → NO_DATA return |
-| C2 | 1 → 2 → 4 → 10 → 14 | Single/multiple students, normal execution |
-| C3 | loop with passing + non-passing students | triggers passing branch |
-| C4 | top student update + HIGH performance path | max avg + classification |
-
----
-
-## Independent Circuits - Test Cases
-
-| Test ID | Circuit |
-|----------|--------|
-| test_C1_empty_data | C1 |
-| test_C2_basic_execution | C2 |
-| test_C3_passing_students | C3 |
-| test_C4_performance_and_top | C4 |
-
----
-
-## Statement Coverage Tests
-
-Pentru testarea la nivel de instructiune primul pas este transformarea programului intr-un graf orientat (graful din stanga este graful pentru functia ui.menu, cel din dreapta este pentru functia ui.filter_students)
+Pentru testarea la nivel de instrucțiune primul pas este transformarea programului într-un graf orientat (graful din stânga este graful pentru funcția ui.menu, cel din dreapta este pentru funcția ui.filter_students)
 
 ![graph](./docs/menu_graph2.png)
 ![graph](./docs/filter_graph.png)
 
-Pentru a obtine un set de teste care acopera toate instructiunile din funcia ui.menu folosim graful orintat corespunzator pentru a identifica un set de date care in urma rulari atinge fiecare instructiune cel putin odata. In urma analizei grafului am obtinut setul urmator de teste:
+Pentru a obține un set de teste care acoperă toate instrucțiunile din funcția ui.menu folosim graful orientat corespunzător pentru a identifica un set de date care în urma rulării atinge fiecare instrucțiune cel puțin o dată. În urma analizei grafului am obținut setul următor de teste:
 
-| Input | Expected Output | Statements Covered |
+| Intrare | Ieșire așteptată | Instrucțiuni acoperite |
 |-------|----------------|--------------------|
-| "0" | program exit | 1...8,55 |
-| "1" | student list printed | 1...6,11,55 |
-| "2" | format message | 1...6,11,13,14...16,55 |
-| "3" | student list + prompt | 1...6,11,13,18,19...22,55 |
-| "4" | format message | 1...6,11,13,18,24,25...28,55 |
-| "5" | report generated | 1...6,11,13,18,24,30,31...3355 |
-| "6 invalid input" | error message | 1...6,11,13,18,24,30,35,36...38,39,40...42,55 |
-| "6 valid" | filtered students printed | 1...6,11,13,18,24,30,35,36...38,39,43,44,53...5455 |
-| "6 empty result" | No students found | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,48,55 |
-| "6 invalid range" | error message | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
+| "0" | ieșire din program | 1...8,55 |
+| "1" | listă studenți afișată | 1...6,11,55 |
+| "2" | mesaj format | 1...6,11,13,14...16,55 |
+| "3" | listă studenți + prompt | 1...6,11,13,18,19...22,55 |
+| "4" | mesaj format | 1...6,11,13,18,24,25...28,55 |
+| "5" | raport generat | 1...6,11,13,18,24,30,31...3355 |
+| "6 input invalid" | mesaj eroare | 1...6,11,13,18,24,30,35,36...38,39,40...42,55 |
+| "6 valid" | studenți filtrați afișați | 1...6,11,13,18,24,30,35,36...38,39,43,44,53...5455 |
+| "6 rezultat gol" | niciun student găsit | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,48,55 |
+| "6 interval invalid" | mesaj eroare | 1...6,11,13,18,24,30,35,36...38,39,43,44,54...46,47,50,51,55 |
 
-Aceasi metoda este folosita si pentru functia ui.filter_students pentru a obtine acest set de date.
+Aceeași metodă este folosită și pentru funcția ui.filter_students pentru a obține acest set de date.
 
-| Input | Expected Output | Statements Covered |
+| Intrare | Ieșire așteptată | Instrucțiuni acoperite |
 |-------|----------------|--------------------|
-| -1 2 | value error | 1,2 |
-| 6 4 | value error | 1,3,4 |
-| 4 6 | student list | 1,3,5-11 |
+| -1 2 | eroare valoare | 1,2 |
+| 6 4 | eroare valoare | 1,3,4 |
+| 4 6 | listă studenți | 1,3,5-11 |
 
+--------------------------------------------------
+### Acoperire la nivel de decizie
 
-## Decision Coverage Tests
+Pentru testare la nivel de decizie analizăm programul și graful orientat al acestuia pentru a extrage instrucțiunile de decizie (if, for, while, try except) în ui.menu am găsit următoarele decizii
 
-Pentru testare la nivel de decizie analizam programul si graful orientat al acestuia pentru a extrage instructiunile de decizie (if, for, while, try except) in ui.menu am gasit urmatoarele decizi
-
-| Nr | Decisions |
+| Nr | Decizii |
 |----|-----------|
 | 1 | while not should_exit |
 | 2 | if opcode == 0 |
@@ -203,43 +138,44 @@ Pentru testare la nivel de decizie analizam programul si graful orientat al aces
 | 11 | if not result |
 | 12 | for s in result |
 
-Setul de date de test urmaotare a fost ales astfel incat fiecare dintre cele 12 decizi sa fie cel putin odata adevarate si odata false
+Setul de date de test următor a fost ales astfel încât fiecare dintre cele 12 decizii să fie cel puțin o dată adevărate și o dată false
 
-| Input | Output | Decisions |
+| Intrare | Ieșire | Decizii |
 |-------|--------|-----------|
-| 0 | program exit | 1 True False, 2 True |
-| 1 | student list printed | 1 True, 2 False, 3 True|
-| 2 | format message | 1 True, 2-3 False, 4 True |
-| 3 | student list + prompt | 1 True, 2-4 False, 5 True |
-| 4 | format message | 1 True, 2-5 False, 6 True |
-| 5 | report generated | 1 True, 2-6 False, 7 True |
-| 6 "invalid input" | error message | 1 True False, 2-7 False, 8 True, 9 False |
-| 6 "valid" | filtered students printed | 1 True, 2-7 False, 8 True, 9 True, 10 True, 11 False, 12 True False |
-| 6 "empty result" | No students found | 1 True, 2-7 False, 8 True, 9 True 10 True, 11 True |
-| 6 "invalid range" | error message | 1 True, 2-7 False, 8 True, 9 True, 10 False |
-| 7 | input igonred wait for other operation | 1 True, 2-8 False |
+| 0 | ieșire din program | 1 True False, 2 True |
+| 1 | listă studenți afișată | 1 True, 2 False, 3 True|
+| 2 | mesaj format | 1 True, 2-3 False, 4 True |
+| 3 | listă studenți + prompt | 1 True, 2-4 False, 5 True |
+| 4 | mesaj format | 1 True, 2-5 False, 6 True |
+| 5 | raport generat | 1 True, 2-6 False, 7 True |
+| 6 "input invalid" | mesaj eroare | 1 True False, 2-7 False, 8 True, 9 False |
+| 6 "valid" | studenți filtrați afișați | 1 True, 2-7 False, 8 True, 9 True, 10 True, 11 False, 12 True False |
+| 6 "rezultat gol" | niciun student găsit | 1 True, 2-7 False, 8 True, 9 True 10 True, 11 True |
+| 6 "interval invalid" | mesaj eroare | 1 True, 2-7 False, 8 True, 9 True, 10 False |
+| 7 | input ignorat așteaptă altă operație | 1 True, 2-8 False |
 
-Aceasi metoda a fost utilizata pentru functia ui.filter_students
+Aceeași metodă a fost utilizată pentru funcția ui.filter_students
 
-| Nr | Decisions |
+| Nr | Decizii |
 |----|-----------|
 | 1 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 |
 | 2 | if min_avg > max_avg: |
 | 3 | for s in self.students: |
 | 4 | if min_avg <= avg <= max_avg: |
 
-| Input | Output | Decisions |
-|-------|--------|-----------
-| -1 2 | value error | 1 True |
-| 6 4 | value error | 1 False, 2 True |
-| 4 6 (student with average in range) | student list | 1 False, 2 False, 3 True False, 4 True |
-| 1 2 (student not in range) | student list | 1 False, 2 False, 3 True False, 4 False |
+| Intrare | Ieșire | Decizii |
+|-------|--------|-----------|
+| -1 2 | eroare valoare | 1 True |
+| 6 4 | eroare valoare | 1 False, 2 True |
+| 4 6 (student cu medie în interval) | listă studenți | 1 False, 2 False, 3 True False, 4 True |
+| 1 2 (student în afara intervalului) | listă studenți | 1 False, 2 False, 3 True False, 4 False |
 
-## Condition Coverage Tests
+--------------------------------------------------
+### Acoperire la nivel de condiție
 
-Pentru testare la nivel de impartim deciziile identificate anterior in mai multe conditii (daca este posibil).
+Pentru testare la nivel de condiție împărțim deciziile identificate anterior în mai multe condiții (dacă este posibil).
 
-| Nr | Decisions | Conditions |
+| Nr | Decizii | Condiții |
 |----|-----------|------------|
 | 1 | while not should_exit | not should_exit |
 | 2 | if opcode == 0 | opcode == 0 |
@@ -249,30 +185,30 @@ Pentru testare la nivel de impartim deciziile identificate anterior in mai multe
 | 6 | if opcode == 4 | opcode == 4 |
 | 7 | if opcode == 5 | opcode == 5 |
 | 8 | if opcode == 6 | opcode == 6 |
-| 9 | try map(float, in_string.split()) | map(float, in_string.split()) throws |
-| 10 | try self.filter_students(min_avg, max_avg) | self.filter_students(min_avg, max_avg) throws |
+| 9 | try map(float, in_string.split()) | map(float, in_string.split()) aruncă excepție |
+| 10 | try self.filter_students(min_avg, max_avg) | self.filter_students(min_avg, max_avg) aruncă excepție |
 | 11 | if not result | not result |
 | 12 | for s in result | s in result |
 
-Cum deciziile din functia ui.menu nu pot fi imparite in mai multe decizii setul de teste gasit este identic cu cel de la testare la nivel de decizie
+Cum deciziile din funcția ui.menu nu pot fi împărțite în mai multe condiții setul de teste găsit este identic cu cel de la testare la nivel de decizie
 
-| Input | Expected | Conditions |
+| Intrare | Ieșire așteptată | Condiții |
 |-------|----------|------------|
-| 0 | program exit | 1 True False, 2 True |
-| 1 | student list printed | 1 True, 2 False, 3 True|
-| 2 | format message | 1 True, 2-3 False, 4 True |
-| 3 | student list + prompt | 1 True, 2-4 False, 5 True |
-| 4 | format message | 1 True, 2-5 False, 6 True |
-| 5 | report generated | 1 True, 2-6 False, 7 True |
-| 6 "invalid input" | error message | 1 True False, 2-7 False, 8 True, 9 False |
-| 6 "valid" | filtered students printed | 1 True, 2-7 False, 8 True, 9 True, 10 True, 11 False, 12 True False |
-| 6 "empty result" | No students found | 1 True, 2-7 False, 8 True, 9 True 10 True, 11 True |
-| 6 "invalid range" | error message | 1 True, 2-7 False, 8 True, 9 True, 10 False |
-| 7 | input igonred wait for other operation | 1 True, 2-8 False |
+| 0 | ieșire din program | 1 True False, 2 True |
+| 1 | listă studenți afișată | 1 True, 2 False, 3 True|
+| 2 | mesaj format | 1 True, 2-3 False, 4 True |
+| 3 | listă studenți + prompt | 1 True, 2-4 False, 5 True |
+| 4 | mesaj format | 1 True, 2-5 False, 6 True |
+| 5 | raport generat | 1 True, 2-6 False, 7 True |
+| 6 "input invalid" | mesaj eroare | 1 True False, 2-7 False, 8 True, 9 False |
+| 6 "valid" | studenți filtrați afișați | 1 True, 2-7 False, 8 True, 9 True, 10 True, 11 False, 12 True False |
+| 6 "rezultat gol" | niciun student găsit | 1 True, 2-7 False, 8 True, 9 True 10 True, 11 True |
+| 6 "interval invalid" | mesaj eroare | 1 True, 2-7 False, 8 True, 9 True, 10 False |
+| 7 | input ignorat așteaptă altă operație | 1 True, 2-8 False |
 
-In funcita ui.filter_students are mai multe conditii in decizia 3 astfel setul de date de test gasite aici este diferit.
+În funcția ui.filter_students există mai multe condiții în decizia 3 astfel setul de date de test găsit aici este diferit.
 
-| Nr | Decisions | Conditions |
+| Nr | Decizii | Condiții |
 |----|-----------|------------|
 | 1 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 | min_avg < 0 |
 | 2 | if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10 | min_avg > 10 |
@@ -283,18 +219,19 @@ In funcita ui.filter_students are mai multe conditii in decizia 3 astfel setul d
 | 7 | if min_avg <= avg <= max_avg: | min_avg <= avg |
 | 8 | if min_avg <= avg <= max_avg: | avg <= max_avg |
 
-| Input | Output | Decisions |
+| Intrare | Ieșire | Decizii |
 |-------|--------|-----------|
-| -1 2 | value error | 1 False |
-| 11 2 | value error | 2 False |
-| 2 -1 | value error | 3 False |
-| 2 11 | value error | 4 False |
-| 6 4 | value error | 1-4 False 5 True |
-| 1 2 (student above range) | student list | 1-4 False 5 False, 6 True False, 7 True, 8 False |
-| 9 10 (student bellow range) | student list | 1-4 False 5 False, 6 True False, 7 False, 8 True |
+| -1 2 | eroare valoare | 1 False |
+| 11 2 | eroare valoare | 2 False |
+| 2 -1 | eroare valoare | 3 False |
+| 2 11 | eroare valoare | 4 False |
+| 6 4 | eroare valoare | 1-4 False 5 True |
+| 1 2 (student peste interval) | listă studenți | 1-4 False 5 False, 6 True False, 7 True, 8 False |
+| 9 10 (student sub interval) | listă studenți | 1-4 False 5 False, 6 True False, 7 False, 8 True |
 
+--------------------------------------------------
+### Mutation testing
 
-## Muatation testing
-Testarea la nivel de mutatii pentru cele doua functii ui.menu si ui.filter_students a fost realizata cu unealta mutmut pentru a genera mutatii dupa utilizarea acestuia am agsit urmaotarele rezultate:
-- pentru ui.menu singuri mutanti neeliminati sunt cei care modifica codul folosit pentru iesirea din program (astfel programul nu se mai opreste singur)
-- pentru ui.filter_students singuri mutatii neelimintai sunt cei care modifica mesajul de la exceptia ValueError
+Testarea la nivel de mutații pentru cele două funcții ui.menu și ui.filter_students a fost realizată cu unealta mutmut. După utilizarea acesteia am găsit următoarele rezultate:
+- pentru ui.menu singurii mutanți neeliminați sunt cei care modifică codul folosit pentru ieșirea din program (astfel programul nu se mai oprește singur)
+- pentru ui.filter_students singurii mutanți neeliminați sunt cei care modifică mesajul de la excepția ValueError
