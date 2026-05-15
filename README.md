@@ -238,8 +238,10 @@ Testarea la nivel de mutații pentru cele două funcții ui.menu și ui.filter_s
 - pentru ui.menu singurii mutanți neeliminați sunt cei care modifică codul folosit pentru ieșirea din program (astfel programul nu se mai oprește singur)
 - pentru ui.filter_students singurii mutanți neeliminați sunt cei care modifică mesajul de la excepția ValueError
 
---------------------------------------------------
-### Rulare teste si coverage
+
+## Rulare teste si coverage
+
 ![graph](./docs/tests.png)
 ![graph](./docs/coverage.png)
+
 Comanda pentru coverage cu raport HTML: pytest --cov=. --cov-branch --cov-report=html --cov-report=term-missing
