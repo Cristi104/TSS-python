@@ -245,3 +245,9 @@ Testarea la nivel de mutații pentru cele două funcții ui.menu și ui.filter_s
 ![graph](./docs/coverage.png)
 
 Comanda pentru coverage cu raport HTML: pytest --cov=. --cov-branch --cov-report=html --cov-report=term-missing
+
+## Prezentare
+
+Prezentarea proiectului este disponibilă aici:
+
+![Download prezentare PowerPoint](./docs/Prezentare.pptx)
