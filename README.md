@@ -277,3 +277,13 @@ Per total, utilizarea tool-urilor AI poate ajuta la dezvoltarea rapidă a unei s
 
 Rularea testelor AI și non-AI
 ![graph](./docs/tests_run.png)
+
+## Referințe
+
+[1] OpenAI, ChatGPT, https://chatgpt.com/, Data accesării: aprilie-mai 2026
+
+[2] pytest Documentation, https://docs.pytest.org/, Data accesării: aprilie-mai 2026
+
+[3] mutmut Documentation, https://mutmut.readthedocs.io/, Data accesării: aprilie-mai 2026
+
+[4] coverage.py Documentation, https://coverage.readthedocs.io/, Data accesării: aprilie-mai 2026
