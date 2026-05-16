@@ -240,32 +240,6 @@ Testarea la nivel de mutații pentru cele două funcții ui.menu și ui.filter_s
 
 ![graph](./docs/mutmut.png)
 
-### Raport utilizare tool-uri AI
-
-Pentru a testa daca tool-urile AI pot fi folositoare la dezvoltarea si extinderea unei suite de teste am utilizat modelul GPT-5.4 Thinking pentru a genera o suita de teste echivalenta cu cea dezvoltata.
-
-Folosind promptul: "
-creaza o suita de teste completa pnetru functiile ui.menu si ui.filter_students. Suita de teste trebuie sa includa teste functionale (equvalence partitioning, boundry value analysis si category partitioning) cat si teste structurale (statement coverage, decision coverage si condition coverage) pentru fiecare tip de test scrie un scurt raport care sa evidentieze ce teste au fost create si care dintre ele sunt noi.
-"
-
-Conversatia intreaga: https://chatgpt.com/share/6a088732-7444-83eb-8dcd-45b5cf487ad1
-
-Dupa o analiza a testelor generate am observat urmatoarele diferente:
-- pentru functia ui.filter_students
-    - este adaugata o clasa de echivalenta in plus (interval valid care include toate mediile)
-    - este ignorata o decizie in condition coverage (if min_avg <= avg <= max_avg) astfel nu este complet condition coverage
-- pentru ui.menu 
-    - clasele de echivalenta sunt total diferite (sunt pe inputuri valide/invalide in loc de operatie executata)
-    - statement coverage nu include teste pentru toate instructiunile (lipsesc teste pentru exceptiile posibile in ultima operatie)
-    - decision coverage lipsesc o multitudine de teste (sunt teste doar pentru ultima operatie)
-    - condition coverage iarasi lipsesc teste pentru exceptii
-
-
-Per total utilizarea toolurilor de AI pot ajuta dezvoltarea rapida a unei suitei de teste dar acestea au tendinta de a ignora anumite parti in special la teste structurale. 
-
-Rularea testelor AI si non-AI
-![graph](./docs/tests_run.png)
-
 ## Rulare teste si coverage
 
 ![graph](./docs/tests.png)
@@ -277,4 +251,29 @@ Comanda pentru coverage cu raport HTML: pytest --cov=. --cov-branch --cov-report
 
 Prezentarea proiectului este disponibilă aici:
 
-![Download prezentare PowerPoint](./docs/Prezentare.pptx)
+[Download PowerPoint](./docs/Prezentare.pptx)
+
+## Raport utilizare tool-uri AI
+
+Pentru a testa dacă tool-urile AI pot fi folositoare la dezvoltarea și extinderea unei suite de teste, am utilizat modelul GPT-5.4 Thinking pentru a genera o suită de teste echivalentă cu cea dezvoltată.
+
+Folosind promptul: "
+creaza o suita de teste completa pnetru functiile ui.menu si ui.filter_students. Suita de teste trebuie sa includa teste functionale (equvalence partitioning, boundry value analysis si category partitioning) cat si teste structurale (statement coverage, decision coverage si condition coverage) pentru fiecare tip de test scrie un scurt raport care sa evidentieze ce teste au fost create si care dintre ele sunt noi.
+"
+
+Conversația întreagă:: https://chatgpt.com/share/6a088732-7444-83eb-8dcd-45b5cf487ad1
+
+După o analiză a testelor generate, am observat următoarele diferențe:
+- pentru funcția ui.filter_students
+    - este adăugată o clasă de echivalență în plus (interval valid care include toate mediile)
+    - este ignorată o decizie în condition coverage (if min_avg <= avg <= max_avg), astfel nu este realizat complet condition coverage
+- pentru ui.menu 
+    - clasele de echivalență sunt total diferite (sunt bazate pe inputuri valide/invalide în loc de operația executată)
+    - statement coverage nu include teste pentru toate instrucțiunile (lipsesc teste pentru excepțiile posibile în ultima operație)
+    - decision coverage are o multitudine de teste lipsă (există teste doar pentru ultima operație)
+    - condition coverage nu include teste pentru excepții
+
+Per total, utilizarea tool-urilor AI poate ajuta la dezvoltarea rapidă a unei suite de teste, dar acestea au tendința de a ignora anumite părți, în special în cazul testelor structurale. 
+
+Rularea testelor AI și non-AI
+![graph](./docs/tests_run.png)
