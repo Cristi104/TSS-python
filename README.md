@@ -235,9 +235,34 @@ Cum deciziile din funcția ui.menu nu pot fi împărțite în mai multe condiți
 ### Mutation testing
 
 Testarea la nivel de mutații pentru cele două funcții ui.menu și ui.filter_students a fost realizată cu unealta mutmut. După utilizarea acesteia am găsit următoarele rezultate:
-- pentru ui.menu singurii mutanți neeliminați sunt cei care modifică codul folosit pentru ieșirea din program (astfel programul nu se mai oprește singur)
-- pentru ui.filter_students singurii mutanți neeliminați sunt cei care modifică mesajul de la excepția ValueError
+- pentru ui.menu singurii mutanti neeliminati sunt cei care adauga caractere dupa sau inainte de string-urile pentru meniu (nu afecteaza functionarea doar aspectul)
+- pentru ui.filter_students nu avem mutanti neeliminati
 
+![graph](./docs/mutmut.png)
+
+### Raport utilizare tool-uri AI
+
+Pentru a testa daca tool-urile AI pot fi folositoare la dezvoltarea si extinderea unei suite de teste am utilizat modelul GPT-5.4 Thinking pentru a genera o suita de teste echivalenta cu cea dezvoltata.
+
+Folosind promptul: "
+creaza o suita de teste completa pnetru functiile ui.menu si ui.filter_students. Suita de teste trebuie sa includa teste functionale (equvalence partitioning, boundry value analysis si category partitioning) cat si teste structurale (statement coverage, decision coverage si condition coverage) pentru fiecare tip de test scrie un scurt raport care sa evidentieze ce teste au fost create si care dintre ele sunt noi.
+"
+
+Dupa o analiza a testelor generate am observat urmatoarele diferente:
+- pentru functia ui.filter_students
+    - este adaugata o clasa de echivalenta in plus (interval valid care include toate mediile)
+    - este ignorata o decizie in condition coverage (if min_avg <= avg <= max_avg) astfel nu este complet condition coverage
+- pentru ui.menu 
+    - clasele de echivalenta sunt total diferite (sunt pe inputuri valide/invalide in loc de operatie executata)
+    - statement coverage nu include teste pentru toate instructiunile (lipsesc teste pentru exceptiile posibile in ultima operatie)
+    - decision coverage lipsesc o multitudine de teste (sunt teste doar pentru ultima operatie)
+    - condition coverage iarasi lipsesc teste pentru exceptii
+
+
+Per total utilizarea toolurilor de AI pot ajuta dezvoltarea rapida a unei suitei de teste dar acestea au tendinta de a ignora anumite parti in special la teste structurale. 
+
+Rularea testelor AI si non-AI
+![graph](./docs/tests_run.png)
 
 ## Rulare teste si coverage
 

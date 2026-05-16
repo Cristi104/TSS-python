@@ -1,7 +1,7 @@
 from app import db
 from app.student import Student
 
-# pragma: no mutate start
+# mutmut: disable
 def is_number(s):
     try:
         float(s)
@@ -14,7 +14,7 @@ class ui:
         self.db = db.Database()
         self.students = self.db.populate_table()
 
-# pragma: no mutate end
+# mutmut: enable
     def menu(self):
         should_exit = False
         while not should_exit:
@@ -72,16 +72,18 @@ class ui:
                 except ValueError:
                     print("Invalid range")
 
-# pragma: no mutate start
+# mutmut: disable
     def print_students(self):
         print("\n".join([i.__str__() for i in self.students]))
 
+# mutmut: disable
     def find_student_by_id(self, target_id):
         for student in self.students:
             if student.id == target_id:
                 return student
         return None
 
+# mutmut: disable
     def add_student(self, in_string):
         in_string = in_string.split()
         name = ""
@@ -100,6 +102,7 @@ class ui:
         self.students.append(student)
         return student
 
+# mutmut: disable
     def add_grade(self, in_string):
         in_string = in_string.split()
         id = int(in_string[0])
@@ -109,6 +112,7 @@ class ui:
             student.add_grade(grade)
             self.db.update_student(student)
 
+# mutmut: disable
     def remove_student(self, in_string):
         id = float(in_string)
         student = self.find_student_by_id(id)
@@ -116,6 +120,7 @@ class ui:
             self.db.delete_student(student)
             self.students.remove(student)
 
+# mutmut: disable
     def generate_report(self):
         if not self.students:
             return "NO_DATA" 
@@ -151,7 +156,8 @@ class ui:
             "performance": performance,
             "top": top_student.name
         }
-    
+
+# mutmut: enable
     def filter_students(self, min_avg, max_avg):
         if min_avg < 0 or min_avg > 10 or max_avg < 0 or max_avg > 10:
             raise ValueError("Input must be between 0 and 10")
@@ -165,4 +171,3 @@ class ui:
                 result.append(s)
                 
         return result
-# pragma: no mutate end
