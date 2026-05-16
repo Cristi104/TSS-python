@@ -248,6 +248,8 @@ Folosind promptul: "
 creaza o suita de teste completa pnetru functiile ui.menu si ui.filter_students. Suita de teste trebuie sa includa teste functionale (equvalence partitioning, boundry value analysis si category partitioning) cat si teste structurale (statement coverage, decision coverage si condition coverage) pentru fiecare tip de test scrie un scurt raport care sa evidentieze ce teste au fost create si care dintre ele sunt noi.
 "
 
+Conversatia intreaga: https://chatgpt.com/share/6a088732-7444-83eb-8dcd-45b5cf487ad1
+
 Dupa o analiza a testelor generate am observat urmatoarele diferente:
 - pentru functia ui.filter_students
     - este adaugata o clasa de echivalenta in plus (interval valid care include toate mediile)
