@@ -253,6 +253,8 @@ Prezentarea proiectului este disponibilă aici:
 
 [Download PowerPoint](./docs/Prezentare.pptx)
 
+[Demo](https://youtu.be/3djNi2BPedE)
+
 ## Raport utilizare tool-uri AI
 
 Pentru a testa dacă tool-urile AI pot fi folositoare la dezvoltarea și extinderea unei suite de teste, am utilizat modelul GPT-5.4 Thinking pentru a genera o suită de teste echivalentă cu cea dezvoltată.
